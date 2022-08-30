@@ -1,49 +1,66 @@
 @import "./common.scss";
 
+// Chat.html Size
+$submit-button-size: 3rem;
+$header-height: 3rem;
+$chat-margin-left: 1rem;
+$chat-margin-right: 1rem;
+$chat-margin-top: 1rem;
+$chat-margin-bottom: 4rem;
+$message-gap: 12.5px;
+$message-img-size: 50px;
+$message-text-width: 300px;
+
 .chat {
-  @media screen and (max-width: 768px) {
-    width: calc(100% - 2rem);
-  }
-  @media screen and (min-width: 768px) {
-    padding: 0 auto;
-  }
-  margin: 0 1rem 4rem 1rem;
-  width: calc(100% - 50px);
+  width: calc(100% - ($chat-margin-left + $chat-margin-right));
   height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   gap: 15px;
+
+  margin: $chat-margin-top $chat-margin-right $chat-margin-bottom
+    $chat-margin-left;
 }
-header {
+.chatheader {
+  width: 100%;
+  height: $header-height;
+
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: #5aa3f7;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   padding: 0 15px;
   margin-bottom: 15px;
-  border-bottom: 1px solid #e5e5e5;
-  height: 3rem;
+
+  background-color: $color-primary-blue;
+  border-bottom: 1px solid $color-background;
 }
 
 section {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  gap: 12.5px;
+  gap: $message-gap;
 
-  .profile {
+  .profileBox {
     display: flex;
     flex-direction: column;
     align-items: center;
     img {
-      width: 80px;
+      width: $message-img-size;
+      height: $message-img-size;
       aspect-ratio: 1;
       border-radius: 50%;
       object-fit: cover;
+    }
+    .username {
+      font-size: $font-size-md;
     }
   }
   .messageBox {
@@ -52,16 +69,17 @@ section {
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    width: 300px;
+    width: $message-text-width;
     overflow-wrap: anywhere;
     .message {
       padding: 10px;
       border-radius: 10px;
-      max-width: calc(100% - 140px);
+      max-width: calc(100% - 2 * $message-img-size);
+      font-size: $font-size-md;
     }
     .time {
-      color: #999;
-      font-size: 12px;
+      color: $color-gray;
+      font-size: $font-size-sm;
     }
   }
 }
@@ -71,7 +89,7 @@ section {
   .messageBox {
     align-items: flex-start;
     .message {
-      background-color: #5aa3f7;
+      background-color: $color-primary-blue;
     }
   }
 }
@@ -79,9 +97,8 @@ section {
   flex-direction: row-reverse;
   .messageBox {
     align-items: flex-end;
-
     .message {
-      background-color: #cae3ff;
+      background-color: $color-primary-blue-light;
     }
   }
 }
@@ -99,27 +116,33 @@ section {
     width: 100%;
 
     input[type*="text"] {
-      width: calc(100% - 3rem);
-      height: 3rem;
-      border: none;
-      border-radius: 10px;
-      padding: 0 1rem;
-      font-size: 1rem;
-      outline: none;
-      resize: none;
-    }
-    input[type*="submit"] {
-      width: 3rem;
-      height: 3rem;
+      width: calc(100% - $submit-button-size);
+      height: $submit-button-size;
+      font-size: $font-size-md;
 
       border: none;
-      border-radius: 10px;
-      padding: 10px;
-      font-size: 1rem;
+      border-radius: 10px 10px 0 0;
+      padding: 0 1rem;
       outline: none;
       resize: none;
-      background-color: #70aff8;
-      color: #fff;
+      &:focus {
+        outline: 1px solid $color-primary-blue;
+      }
+    }
+    input[type*="submit"] {
+      width: calc($submit-button-size + 20px);
+      height: $submit-button-size;
+      font-size: $font-size-md;
+
+      border: none;
+      border-radius: 10px 10px 0 0;
+      padding: 10px;
+      outline: none;
+      resize: none;
+
+      background-color: $color-primary-blue;
+      color: $color-background;
+
       cursor: pointer;
     }
   }
