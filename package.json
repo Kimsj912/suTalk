@@ -1,0 +1,40 @@
+{
+  "name": "sutlak",
+  "version": "1.0.0",
+  "description": "공부하고 싶은 내용",
+  "main": "index.js",
+  "scripts": {
+    "ss": "sass --watch src/style/scss:src/style/css",
+    "start": "sass src/style/scss:src/style/css && webpack serve --open --mode development",
+    "build": "webpack",
+    "dev": "webpack --mode development",
+    "sass": "sass src/style/scss:src/style/css",
+    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kimsj912/suTalk.git"
+  },
+  "author": "Kimsj912",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kimsj912/suTalk/issues"
+  },
+  "homepage": "https://github.com/Kimsj912/suTalk",
+  "dependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "node-sass": "^7.0.1",
+    "scss": "^0.2.4"
+  },
+  "devDependencies": {
+    "css-loader": "^6.7.1",
+    "file-loader": "^6.2.0",
+    "postcss-loader": "^7.0.1",
+    "sass-loader": "^13.0.2",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.10.0"
+  }
+}

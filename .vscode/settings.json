@@ -1,0 +1,15 @@
+{
+  // css의 format (expanded : 가독성, compressed: 압축)
+  "liveSassCompile.settings.formats": [
+    {
+      "format": "expanded",
+      //   작업한 scss파일명 + .css로 저장됨
+      "extensionName": ".css",
+      "savePath": "/src/style/css"
+    }
+  ],
+  //   컴파일된 css의 확장자명
+  "liveSassCompile.settings.generateMap": false,
+  //   컴파일된 css의 저장경로(상대경로로 작성)
+  "liveSassCompile.settings.includeItems": ["/src/styles/scss/ *.scss"]
+}
