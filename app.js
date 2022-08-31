@@ -54,7 +54,7 @@ app.get('/chat', (req, res) => {
     // 닉네임 저장
     let { username, chatName } = data;
     console.log(`data : ${username, chatName}`);
-    // chat.pug로 연결
+    // chat으로 연결
     res.render('public/chat.html', { "username": username, "chatName": chatName });
 });
 
@@ -64,16 +64,26 @@ app.get('/chat', (req, res) => {
 io.on("connection", (socket) => {
     console.log("a user connected");
     /** 채팅 내용 */
-    socket.on("chatting", (data)=>{
-        const { chatName, name, msg } = data;
+    socket.on("messaging", (data)=>{
+        const { chatName, username, msg } = data;
         console.log(data);
         if (!chatName) console.log("chatName is null");
         const newChat = { ...data, time: moment(new Date()).format("yyyy-MM-dd hh:mm") };
         
-        io.emit("chatting", newChat);
+        push(ref(db, `chat/${username}/${chatName}`), newChat);
+        get(child(ref(getDatabase()), `chat/${username}/${chatName}`)).then((snapshot) => { 
+            if (snapshot.exists) {
+                const chattings = Object.values(snapshot.val() ?? []);
+                io.emit("messaging", {"chattings": chattings});
+            } else {
+                console.log('no data');
+            }
+        });
+        // io.emit("messaging", newChat);
     });
 
-    /** 채팅아이디, 사용함수 반환 */
+
+    /** 채팅방 추가 */
     socket.on("addChat", (data) => {
         const { chatName } = data;
         set(ref(db, `chatList/${chatName}`), true);
@@ -89,7 +99,7 @@ io.on("connection", (socket) => {
 
     });
 
-    /**채팅방 리스트 반환 */
+    /**채팅방 리스트 불러오기 */
     socket.on("showChatList", () => { 
         console.log("showChatList");
         const dbRef = ref(getDatabase());
@@ -102,4 +112,5 @@ io.on("connection", (socket) => {
             }
         });
     });
+
 })

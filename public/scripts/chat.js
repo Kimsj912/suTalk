@@ -2,22 +2,22 @@
 
 // Attribute
 const socket = io();
-const username = document.querySelector("#username"); 
 
-const chatList = document.querySelector(".chat");
+const chatListNode = document.querySelector(".chat");
 const chatInput = document.querySelector("#newMessage > input[type*=text]");
 const sendButton = document.querySelector("#newMessage > input[type*=submit]");
 
 //  get  msgs from server
-socket.on("chatting",(data)=>{
+socket.on("messaging", (data) => {
+    console.log(data.chattings);
     // destructuring data value
-    const {chatName, name, msg, time} = data;
-    // make model 
-    if (chatName !== username.innerText) return;
-    const item = new MessageModel(name, msg, time);
-    item.create();
-    // scroll to bottom
-    chatListNode.scrollTo(0,chatListNode.scrollHeight);
+    chatListNode.innerHTML = "";
+    for (const { chatName, name, msg, time } of data.chattings) {
+        console.log(`chatName, name, msg, time : ${chatName}, ${name}, ${msg}, ${time}`);
+        // make model 
+        const item = new MessageModel(name, msg, time);
+        item.create();
+    }
 })
 
 // Obj - li tag model about chatting block
@@ -56,16 +56,29 @@ class MessageModel {
 
 
 // Event
-sendButton.addEventListener("click", ()=> {
+let curUsername = "";
+let curChatName = "";
+window.addEventListener('DOMContentLoaded', function()
+{
+    curUsername = document.querySelector('#chatName').innerText;
+    curChatName = document.querySelector("#username").innerText;
+    console.log('불려짐');
+});
+sendButton.addEventListener("click", () => {
+    if (curUsername === "" || curUsername === "" || !curUsername || !curChatName) {
+        alert('아직 페이지를 불러오고 있습니다.');
+        return;
+    }
     const param = {
-        chatName: document.querySelector('#chatName').innerText,
-        name : document.querySelector("#username").innerText,
+        chatName: curChatName,
+        username : curUsername,
         msg : chatInput.value,
     }
     // 채널아이디, 내용 객체를 담아 소켓으로 보냄.
-    socket.emit("chatting", param); 
+    socket.emit("messaging", param); 
     //입력창 초기화
     chatInput.value = ""; 
 }
 );
-chatInput.addEventListener("keypress", (e) => { if (e.keyCode === 13) send(); });
+chatInput.addEventListener("keypress", (e) => { if (e.keyCode === 13) sendButton.click(); });
+

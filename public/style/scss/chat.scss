@@ -24,7 +24,6 @@ $message-text-width: 300px;
     $chat-margin-left;
 }
 .chatheader {
-  width: 100%;
   height: $header-height;
 
   position: sticky;
@@ -40,6 +39,10 @@ $message-text-width: 300px;
 
   background-color: $color-primary-blue;
   border-bottom: 1px solid $color-background;
+  p {
+    font-size: $font-size-lg;
+    font-weight: bold;
+  }
 }
 
 section {
