@@ -4,9 +4,10 @@
   "description": "공부하고 싶은 내용",
   "main": "index.js",
   "scripts": {
-    "start": "sass src/style/scss:src/style/css && node app.js",
-    "ss": "sass --watch src/style/scss:src/style/css",
-    "sass": "sass src/style/scss:src/style/css"
+    "start": "sass public/style/scss:public/style/css && node app.js",
+    "deploy": "firebase deploy",
+    "ss": "sass --watch public/style/scss:public/style/css",
+    "sass": "sass public/style/scss:public/style/css"
   },
   "repository": {
     "type": "git",

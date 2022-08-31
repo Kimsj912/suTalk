@@ -4,11 +4,11 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    index: "./src/scripts/index.js",
+    index: "./public/scripts/index.js",
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: path.resolve(__dirname, 'src'),
+      template: path.resolve(__dirname, 'public'),
     }),
   ],
   devServer: {

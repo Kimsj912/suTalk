@@ -20,9 +20,9 @@ const server = http.createServer(app); //서버를 실행
 const io = socketIO(server); // 서버를 담은 socketio를 담음.
 
 // server basic settings
-app.use(express.static(path.join(__dirname, "src"))); // src의 내용을 서버로 열겠다.
+app.use(express.static(path.join(__dirname, "public"))); // src의 내용을 서버로 열겠다.
 server.listen(PORT, ()=> console.log(`server is running... ${PORT}`));
-app.set('views', './src');	// view 파일들이 모여있는 폴더 지정
+app.set('views', './public');	// view 파일들이 모여있는 폴더 지정
 
 // Variable
 let username =""; // 전역으로 닉네임 관리
