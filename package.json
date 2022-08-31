@@ -4,14 +4,9 @@
   "description": "공부하고 싶은 내용",
   "main": "index.js",
   "scripts": {
-    "start": "sass src/style/scss:src/style/css && webpack serve --open --mode development",
-    "build": "webpack",
-    "dev": "webpack --mode development",
-    "serverStart": "nodemon app.js",
+    "start": "sass src/style/scss:src/style/css && node app.js",
     "ss": "sass --watch src/style/scss:src/style/css",
-    "sass": "sass src/style/scss:src/style/css",
-    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx"
+    "sass": "sass src/style/scss:src/style/css"
   },
   "repository": {
     "type": "git",
@@ -31,7 +26,8 @@
     "node-sass": "^7.0.1",
     "pug": "^3.0.2",
     "scss": "^0.2.4",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1"
   },
   "devDependencies": {
     "css-loader": "^6.7.1",
