@@ -11,8 +11,9 @@ const sendButton = document.querySelector("#newMessage > input[type*=submit]");
 //  get  msgs from server
 socket.on("chatting",(data)=>{
     // destructuring data value
-    const {name, msg, time} = data;
+    const {chatName, name, msg, time} = data;
     // make model 
+    if (chatName !== username.innerText) return;
     const item = new MessageModel(name, msg, time);
     item.create();
     // scroll to bottom
@@ -57,6 +58,7 @@ class MessageModel {
 // Event
 sendButton.addEventListener("click", ()=> {
     const param = {
+        chatName: document.querySelector('#chatName').innerText,
         name : document.querySelector("#username").innerText,
         msg : chatInput.value,
     }

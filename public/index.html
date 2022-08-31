@@ -6,31 +6,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="/style/css/index.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/style/css/index.css"> -->
+    <link rel="stylesheet" type="text/css" href="./style/css/index.css">
 </head>
 
-<body class="indexBody">
-    <header class="indexHeader">
-        <h1>It's header</h1>
+<body class="container">
+    <header>
+        <img class="logo" src="./static/logo.png" />
+        <div>
+            <input id="username" type="text" placeholder="닉네임을 입력하세요" />
+            <input id="changeUsernameBtn" type="button" value="변경" />
+        </div>
+    </header>
+    <main>
         <!-- 친구 목록 -->
+        <section class="mainTitle">
+            <p>채팅 목록</p>
+            <div>
+                <input id="chatName" type="text" placeholder="채팅방명" />
+                <button id="AddchatBtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </section>
         <aside class="chatList">
             <ul>
-                <li id="ajaxButton" type="button">
-                    <p>
+                <li>
+                    <a href="./chat.html">
                         Make a request
-                    </p>
+                    </a>
                 </li>
             </ul>
         </aside>
-    </header>
-    <main>
-        <!-- 톡 내용 -->
-        <article class="chatting">
-            <a href="./chat.html">sdfsdfsdf</a>
-        </article>
     </main>
 </body>
+<script src="https://kit.fontawesome.com/119b495ebd.js" crossorigin="anonymous"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="./scripts/index.js"></script>
+<!-- <script src="./scripts/index.js" type="/module"></script> -->
 
 </html>

@@ -1,28 +1,67 @@
-(function () {
-    var httpRequest;
-    document.getElementById("ajaxButton").addEventListener('click', makeRequest);
+// Elements
+let curUsernameInput = document.querySelector('#username');
+const changeUsernameBtn = document.querySelector('#changeUsernameBtn');
 
-    function makeRequest() {
-        httpRequest = new XMLHttpRequest();
+// let findChatNameInput = document.querySelector('#chatName');
+// let findChatBtn = document.querySelector('#AddchatBtn');
 
-        if (!httpRequest) {
-            alert('XMLHTTP 인스턴스를 만들 수가 없어요 ㅠㅠ');
-            return false;
-        }
-        httpRequest.onreadystatechange = () => {
-            if (httpRequest.readyState === XMLHttpRequest.DONE) {
-                if (httpRequest.status === 200) {
-                    const chatting = document.querySelector('.chatting');
-                    chatting.innerHTML = httpRequest.responseText;
-                } else if (httpRequest.status === 404) {
-                    alert('요청하신 페이지를 찾을 수 없어요 ㅠㅠ'+ httpRequest.responseURL);
-                } else {
-                    alert('request에 뭔가 문제가 있어요.');
-                }
-            }
-        };
-        httpRequest.open('GET','./chat.html');
-        httpRequest.send();
+const chatList = document.querySelector('.chatList > ul');
+
+// Variables
+let curUsername = "";
+
+// Attributes
+const socket = io();
+
+// Functions
+function changeUsername() {
+    let tmp = curUsernameInput.value;
+    if (tmp.trim() === "" || !curUsernameInput.value) return;
+    curUsername = tmp;
+    console.log(curUsername);
+    curUsernameInput.value = '';
+    curUsernameInput.placeholder = curUsername;
+    socket.emit("addChat", { chatName: curUsername });
+}
+
+
+
+// Event Listener
+curUsernameInput.addEventListener('keyup', (e) => { if (e.keyCode === 13) changeUsername(); });
+changeUsernameBtn.addEventListener('click', () => changeUsername());
+// findChatNameInput.addEventListener('keyup', (e) => { if (e.keyCode === 13) Addchat(); });
+// findChatBtn.addEventListener('click', () => Addchat());
+
+class ChatItemModel{
+    constructor(chatItem){
+        this.chatItem = chatItem;
     }
+    create() {
+        let liTag = document.createElement('li');
+        let aTag = document.createElement('a');
+        aTag.href = `/chat?username=${this.chatItem}`;
+        aTag.innerText = this.chatItem;
+        liTag.appendChild(aTag);
+        chatList.appendChild(liTag);
+    }
+}
 
+// Page Initialize
+socket.on("getChatList", (data) => {
+    // destructuring data value
+    const { chatList } = data;
+    console.log(`chatList : ${chatList}`);
+    // make model 
+    for(let chatItem of chatList){
+        const item = new ChatItemModel(chatItem);
+        item.create();
+    };
+});
+
+(() => {
+    console.log("페이지요청안해?")
+    socket.emit("showChatList", () => {
+        console.log('페이지요청');
+    });
 })();
+
