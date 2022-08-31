@@ -15,72 +15,170 @@ body::-webkit-scrollbar {
   height: 0;
 }
 
-.indexHeader {
-  width: 100%;
-  height: 7rem;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  background-color: #3a7ecc;
-  border-bottom: 1px solid #e5e5e5;
+input[type*=text] {
+  outline: none;
+  border: 0;
+  border-bottom: 1px solid rgba(144, 144, 144, 0.3333333333);
+  padding: 0.3rem 0.5rem;
+  min-width: 150px;
 }
-.indexHeader .chatList {
-  background-color: #fff;
-  width: 100%;
-  min-height: 50px;
-  overflow-x: scroll;
+input[type*=text]:focus {
+  border-radius: 10px;
+  outline: 1px solid #5aa3f7;
+  transition: outline-style 1s ease-in-out;
+}
+
+input[type*=button] {
+  outline: none;
+  border: 0;
+  padding: 0.3rem;
+  border-radius: 10px;
+}
+input[type*=button]:focus, input[type*=button]:hover, input[type*=button]:active {
+  background-color: rgba(90, 163, 247, 0.3333333333);
+  transition: all 0.3s ease-in-out;
+}
+
+.container {
+  background-color: #f5f5f5;
+}
+@media all and (max-width: 480px) {
+  .container {
+    width: 100%;
+    margin: 0 1rem;
+  }
+}
+@media all and (min-width: 480px) and (max-width: 768px) {
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+@media all and (min-width: 768px) {
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+}
+
+header {
+  height: 3rem;
+  color: #fff;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 1rem 0.5rem 1rem;
+  background-color: white;
+  border-bottom: 1px solid rgba(144, 144, 144, 0.3333333333);
+  border-radius: 10px;
+}
+header .logo {
+  width: 5rem;
+  height: auto;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+header input[type*=button] {
+  width: 3rem;
+}
+
+.mainTitle {
+  z-index: 999;
+  padding: 0.75rem 1rem;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #cae3ff;
+}
+.mainTitle p {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.mainTitle input[type*=text] {
+  border-radius: 10px;
+  width: 185px;
+  text-align: end;
+}
+.mainTitle button {
+  width: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: 0;
+  background-color: inherit;
+}
+.mainTitle button :hover {
+  transform: scale(1.1);
+  transition: all 0.3s ease-in-out;
+}
+
+main {
+  width: 100%;
+  height: 100vh;
+  border-radius: 10px;
+  background-color: white;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+main::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.chatList {
+  background-color: #fff;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-.indexHeader .chatList::-webkit-scrollbar {
+.chatList::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
-.indexHeader .chatList ul {
+.chatList ul {
   list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.indexHeader .chatList ul li {
-  list-style: none;
-  border: 1px solid white;
-  background-color: whitesmoke;
+  width: 100%;
+  padding: 0.5rem 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.chatList ul li {
+  width: 95%;
+  height: 50px;
   margin: 0;
-}
-.indexHeader .chatList ul li :hover {
-  background-color: rgba(58, 126, 204, 0.3333333333);
   border: 1px solid #5aa3f7;
-  -webkit-transition: background-color 1s, -webkit-transform 1s;
-  transition: background-color 0.5s, transform 0.5s;
+  border-radius: 10px;
+  background-color: whitesmoke;
+  display: flex;
+  align-items: center;
 }
-.indexHeader .chatList ul li p {
+.chatList ul li :hover {
+  border-radius: 10px;
+  transform: scale(1, 1.01);
+  background-color: #cae3ff;
+  transition: scale background-color 0.5s ease-in-out;
+}
+.chatList ul li a {
   width: 100%;
   text-align: left;
   padding: 0.8rem 1.4rem;
+  text-decoration: none;
 }
-
-main {
-  width: 100%;
-  height: calc(100vh - 7rem);
-  background-color: #999;
-}
-main .chatting {
-  height: calc(100% - 7rem);
-  width: auto;
+.chatList ul li a:visited {
+  color: inherit;
 }
 
 /*# sourceMappingURL=index.css.map */

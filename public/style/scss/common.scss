@@ -2,9 +2,12 @@
 $color-primary-blue-dark: #3a7ecc;
 $color-primary-blue-dark-alpha1: #3a7ecc55;
 $color-primary-blue: #5aa3f7;
+$color-primary-blue-alpha5: #5aa3f755;
 $color-primary-blue-light: #cae3ff;
 $color-background: #e5e5e5;
 $color-gray: #999;
+$color-gray-alpha5: #90909055;
+$color-beige: #f5f5f5;
 $color-white: #fff;
 
 // Font
@@ -15,6 +18,11 @@ $font-size-lg: 1rem;
 $font-size-xl: 1.2rem;
 $font-size-xxl: 1.5rem;
 $font-size-xxxl: 2rem;
+
+// Screen Size (모바일(sm), 태블릿(md), 데스크탑(lg))
+$screen-sm: 480px;
+$screen-md: 768px;
+$screen-lg: 1024;
 
 * {
   padding: 0;
