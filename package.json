@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "sass public/style/scss:public/style/css && nodemon app.js",
+    "start": "sass public/style/scss:public/style/css && nodemon --experimental-json-modules app.js",
+    "build": "webpack",
     "deploy": "firebase deploy",
     "ss": "sass --watch public/style/scss:public/style/css",
     "sass": "sass public/style/scss:public/style/css"
@@ -30,6 +31,7 @@
     "moment": "^2.29.4",
     "ngrok": "^4.3.3",
     "node-sass": "^7.0.1",
+    "nunjucks": "^3.2.3",
     "pug": "^3.0.2",
     "scss": "^0.2.4",
     "socket.io": "^4.5.1",

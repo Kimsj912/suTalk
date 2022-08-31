@@ -17,7 +17,7 @@ socket.on("chatting",(data)=>{
     const item = new MessageModel(name, msg, time);
     item.create();
     // scroll to bottom
-    chatList.scrollTo(0,chatList.scrollHeight);
+    chatListNode.scrollTo(0,chatListNode.scrollHeight);
 })
 
 // Obj - li tag model about chatting block
@@ -49,7 +49,7 @@ class MessageModel {
 			// set dom value
 			section.innerHTML = dom;
 			// append li into chatlist
-			chatList.appendChild(section);
+			chatListNode.appendChild(section);
 		};
 	}
 }
@@ -68,4 +68,4 @@ sendButton.addEventListener("click", ()=> {
     chatInput.value = ""; 
 }
 );
-chatInput.addEventListener("keypress",(e)=>{ if(e.keyCode===13) send(); });
+chatInput.addEventListener("keypress", (e) => { if (e.keyCode === 13) send(); });

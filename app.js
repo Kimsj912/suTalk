@@ -5,7 +5,8 @@ const require = createRequire(import.meta.url);
 import path from 'path';
 const __dirname = path.resolve();
 // about firebase
-const config = require('./firebaseData.json');
+// const config = require('./firebaseData.json');
+import config from './firebaseData.json' assert {type: 'json'};
 import * as firebase from "firebase/app";
 import { getDatabase, ref, onValue,get, child, push, set, update } from 'firebase/database';
 // about express
@@ -16,6 +17,7 @@ import { Server } from "socket.io";
 // about ...other
 import moment from "moment";
 import url from 'url'; 
+import nunjucks from 'nunjucks';
 
 // Declare Variables=====================================================
 // Initialize Firebase
@@ -32,16 +34,17 @@ const io = new Server(server);
 
 // server basic settings
 app.use(express.static(path.join(__dirname, "public")));
-server.listen(PORT, ()=> console.log(`server is running... ${PORT}`));
-
-// Variable
-let username =""; // 전역으로 닉네임 관리
-
+server.listen(PORT, () => console.log(`server is running... ${PORT}`));
+app.set("view engine", "html");
+nunjucks.configure({
+    express: app,
+    watch: true,
+})
+app.set("views", path.join(__dirname, "public"));
 
 // Routes===============================================================
 app.get('/', (req, res) => {
-    console.log('index입니다.')
-    res.render(path.join(__dirname, 'index.html'));
+    res.render('index.html');
 });
 
 app.get('/chat', (req, res) => {
@@ -49,9 +52,10 @@ app.get('/chat', (req, res) => {
     // 쿼리스트링으로부터 분리
     let data = url.parse(req.url, true).query;
     // 닉네임 저장
-    username = data.nickname;
+    let { username, chatName } = data;
+    console.log(`data : ${username, chatName}`);
     // chat.pug로 연결
-    res.render(path.join(__dirname, 'chat.html'), {username:username});
+    res.render('public/chat.html', { "username": username, "chatName": chatName });
 });
 
 
@@ -73,6 +77,16 @@ io.on("connection", (socket) => {
     socket.on("addChat", (data) => {
         const { chatName } = data;
         set(ref(db, `chatList/${chatName}`), true);
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, "chatList")).then((snapshot) => { 
+            if (snapshot.exists) {
+                const chatList = Object.keys(snapshot.val());
+                io.emit("getChatList", {"chatList": chatList});
+            } else {
+                console.log('no data');
+            }
+        });
+
     });
 
     /**채팅방 리스트 반환 */
@@ -81,7 +95,7 @@ io.on("connection", (socket) => {
         const dbRef = ref(getDatabase());
         get(child(dbRef, "chatList")).then((snapshot) => { 
             if (snapshot.exists) {
-                const chatList = Object.keys(snapshot.val());
+                const chatList = Object.keys(snapshot.val() ?? {});
                 io.emit("getChatList", {"chatList": chatList});
             } else {
                 console.log('no data');

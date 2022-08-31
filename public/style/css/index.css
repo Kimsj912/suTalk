@@ -176,6 +176,7 @@ main::-webkit-scrollbar {
   text-align: left;
   padding: 0.8rem 1.4rem;
   text-decoration: none;
+  color: inherit;
 }
 .chatList ul li a:visited {
   color: inherit;
