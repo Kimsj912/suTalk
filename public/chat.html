@@ -11,12 +11,37 @@
 
 <body>
     <header class="chatheader">
-        <p>From : <span id="chatName" value=`{{chatName}}`>{{chatName}}</span></p>
-        <p>TO: <span id="username" value=`{{username}}`>{{username}}</span></p>
+        <p>TO : <span id="chatName" value=`{{chatName}}`>{{chatName}}</span></p>
+        <p>FROM: <span id="username" value=`{{username}}`>{{username}}</span></p>
     </header>
     <main class="chat">
         <ul>
-
+            {% for item in chattings %}
+            {% if item.username === username %}
+            <section class="mine">
+                <div class="profileBox">
+                    <img src="http://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg" />
+                    <p class="username">{{username}}</p>
+                </div>
+                <div class="messageBox">
+                    <p class="message">{{item.msg}}</p>
+                    <p class="time">{{item.time}}</p>
+                </div>
+            </section>
+            {% else %}
+            <section class="other">
+                <div class="profileBox">
+                    <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Golde33443.jpg/280px-Golde33443.jpg" />
+                    <p class="username">{{chatName}}</p>
+                </div>
+                <div class="messageBox">
+                    <p class="message">{{item.msg}}</p>
+                    <p class="time">{{item.time}}</p>
+                </div>
+            </section>
+            {% endif %}
+            {% endfor %}
         </ul>
     </main>
     <section id="newMessage" class="messageInput">
@@ -25,6 +50,45 @@
     </section>
 </body>
 <script src="/socket.io/socket.io.js"></script>
-<script src="./scripts/chat.js"></script>
+<script>
+
+    // Attribute
+    const socket = io();
+    const chatListNode = document.querySelector(".chat");
+    const chatInput = document.querySelector("#newMessage > input[type*=text]");
+    const sendButton = document.querySelector("#newMessage > input[type*=submit]");
+
+    //  get  msgs from server
+    socket.on("messaging", (data) => {
+        location.reload();
+        chatInput.value = localStorage.getItem("inputVal");
+        console.log(`get Val : ${localStorage.getItem("inputVal")}`);
+
+    })
+
+    sendButton.addEventListener("click", () => {
+        const param = {
+            chatName: '{{chatName}}',
+            username: '{{username}}',
+            msg: chatInput.value,
+        }
+        // 채널아이디, 내용 객체를 담아 소켓으로 보냄.
+        socket.emit("messaging", param);
+        //입력창 초기화
+        chatInput.value = "";
+        location.reload();
+    }
+    );
+    chatInput.addEventListener("keypress", (e) => { if (e.keyCode === 13) sendButton.click(); });
+
+    chatInput.addEventListener("change", (e) => {
+        e.preventDefault();
+        console.log(e.target.value)
+        localStorage.setItem("inputVal", e.target.value);
+    });
+
+
+</script>
+
 
 </html>

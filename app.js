@@ -54,8 +54,16 @@ app.get('/chat', (req, res) => {
     // 닉네임 저장
     let { username, chatName } = data;
     console.log(`data : ${username, chatName}`);
-    // chat으로 연결
-    res.render('public/chat.html', { "username": username, "chatName": chatName });
+    const adr = username<chatName ? `${username}/${chatName}` : `${chatName}/${username}`;
+
+    get(child(ref(getDatabase()), adr)).then((snapshot) => { 
+        if (snapshot.exists) {
+            const chattings = Object.values(snapshot.val() ?? []);
+            res.render('public/chat.html', { "username": username, "chatName": chatName , "chattings": chattings});
+        } else {
+            console.log('no data');
+        }
+    });
 });
 
 
@@ -69,9 +77,11 @@ io.on("connection", (socket) => {
         console.log(data);
         if (!chatName) console.log("chatName is null");
         const newChat = { ...data, time: moment(new Date()).format("yyyy-MM-dd hh:mm") };
+
+        const adr = username<chatName ? `${username}/${chatName}` : `${chatName}/${username}`;
         
-        push(ref(db, `chat/${username}/${chatName}`), newChat);
-        get(child(ref(getDatabase()), `chat/${username}/${chatName}`)).then((snapshot) => { 
+        push(ref(db, adr), newChat);
+        get(child(ref(getDatabase()), adr)).then((snapshot) => { 
             if (snapshot.exists) {
                 const chattings = Object.values(snapshot.val() ?? []);
                 io.emit("messaging", {"chattings": chattings});
